@@ -12,7 +12,7 @@ There are three main patterns we are going to use; `Factory method`, `Command Ob
 var cmd = CalculationCommandFactory.CreateCalculationCommand(OperationType.Add, new[] { 1, 2, 3, 4 });
 
 var calc = new FluentCalculator();
-var result1 = calcCalculate(cmd).GetResult();
+var result1 = calc.Calculate(cmd).GetResult();
 var result2 = calc.Calculate(cmd).Calculate(cmd).Calculate(cmd).GetResult();
 var result3 = calc.Calculate(cmd).Calculate(cmd).GetResult();
 
