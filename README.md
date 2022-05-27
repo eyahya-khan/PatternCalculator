@@ -1,9 +1,3 @@
-# The Pattern Calculator
-
-It's time to build a calculator again... it's the best thing you can do with code, right? :)
-
-This time, we are going to use a few of the patterns that we talked about during the week - and build a pattern-based calculator. This specification will be written using much of the concepts and language that we have used in the last two weeks. You can go back and look up the what the concepts means in the slides.
-
 ## Specification
 
 There are three main patterns we are going to use; `Factory method`, `Command Object` pattern, and `Fluent API` (which could be called Chain of Responsibility, but it's a bit of stretch in this case) to build our calculator. We want to end up with a calculator that can be called like this:
@@ -53,12 +47,8 @@ Console.WriteLine(result3 == 20); // true
 
 ## Get started
 
-Clone this repository:
+Clone this repository.
 
-```bash
-git clone git@github.com:saltSthlm/dnfs-summer-22-test-patternCalculator.git
-cd dnfs-summer-22-test-patternCalculator
-```
 
 Then restore the projects dependencies
 
@@ -72,29 +62,4 @@ And then to run the tests
 dotnet test
 ```
 
-We have supplied tests that you can use to verify your code, but left it commented out so that your code will compile. You will need to uncomment these test to implement the rest of the methods for the tests. These are not all the test you will need to verify that your implementation works.
-
-## Evaluation
-
-Evaluation will be done by:
-
-- running our own test suite (not supplied, that validates the specification above with more cases) against your code.
-- looking through the code and making sure that it is easy to understand and well written
-
-## Handing in the solution
-
-Upload the `Solution.cs` in a folder called `patternCalculator`.
-
-## FAQ
-
-Should we also submit our test files?
-
-> Nope. But you should write tests to make sure your code works.
-
-Where's my starting tests?
-
-> There are none, this time around. You probably know how to write one by now... or this a good time to learn
-
-Should we handle errors
-
-> Yes - see "Error handling" above
+Uncomment test and try to solve all the test
