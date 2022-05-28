@@ -1,14 +1,10 @@
 ﻿namespace Patterns
 {
-  public class FluentCalculator
-  {
-    public enum AddSubtraction
-    {
-      Add,
-      Subtract
-    }
-    }
-  }
+       public enum AddSubtract
+        {
+          Add,
+          Subtract
+        }
     public class CalculationCommandFactory
     {
       public static void CreateCalculationCommand(int number)
@@ -23,12 +19,11 @@
       {
         
       }
+    }
+          public class CalculationCommand
+          {
 
-      public class CalculationCommand
-      {
-
-      }
-
+          }
 
       public class FluentCalculator
       {
@@ -42,4 +37,5 @@
 
         }
       }
+
 }
