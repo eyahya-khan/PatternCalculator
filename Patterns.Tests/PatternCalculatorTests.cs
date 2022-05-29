@@ -1,8 +1,6 @@
 using Xunit;
 using FluentAssertions;
 
-
-
 namespace Patterns.Tests
 {
   public class PatternCalculatorTests
@@ -130,9 +128,9 @@ namespace Patterns.Tests
 
       // act
       var result = calc.Calculate(cmd).GetResult();
-      
+
       // assert
-      result.Should().Be(2);
+      result.Should().Be(-12);
     }
 
     [Fact]
@@ -148,6 +146,7 @@ namespace Patterns.Tests
       // assert
       result.Should().Be(-15);
     }
+
 
     // [Theory]
     // [InlineData(15, 15, 30)]
