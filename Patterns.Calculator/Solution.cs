@@ -1,158 +1,83 @@
 ﻿using System;
+using System.Linq;
 
 namespace Patterns
 {
-    public enum OperationType
-    {
-        Add,
-        Subtract
-    }
-
-
-    public static class CalculationCommandFactory
-    {
-        
-
-        public static CalculationCommand CreateCalculationCommand(OperationType operation)
-        {
-          
-            switch (operation)
-            {
-                case OperationType.Add:
-                    return new AdditionCommand();
-                case OperationType.Subtract:
-                    return new SubtractionCommand();
-                default:
-                    throw new ApplicationException("Some Exception in code");
-            }
-        }
-
-        public static CalculationCommand CreateCalculationCommand(OperationType operation, int[] array)
-        {
-            switch (operation)
-            {
-                case OperationType.Add:
-                    return new AdditionCommand(array);
-                case OperationType.Subtract:
-                    return new SubtractionCommand(array);
-                default:
-                    throw new ApplicationException("Some Exception in code");
-            }          
-        }
-
-
-        public static CalculationCommand CreateCalculationCommand(OperationType operation, int value)
-        {
-            switch (operation)
-            {
-                case OperationType.Add:
-                    return new AdditionCommand(value);
-                case OperationType.Subtract:
-                    return new SubtractionCommand(value);
-                default:
-                    throw new ApplicationException("Some Exception in code");
-            }
-        }
-    }
-
-    public interface CalculationCommand
-    {
-       
-        public OperationType OperationType { get; set; }
-        public int[] Arguments { get; set; }
-        public int GetResult();       
-
-    }
-
-    public class AdditionCommand : CalculationCommand
-    {
-        public int[] _arguments;     
-        public OperationType _operationtype;
-        public AdditionCommand()
-        {
-            Arguments = new int[] {  };
-        }
-        public AdditionCommand(int[] array)
-        {
-            Arguments = array;
-        }
-        public AdditionCommand(int value)
-        {
-             Arguments = new int[] { value } ;
-        }
-
-        public OperationType OperationType { get =>  _operationtype; set => OperationType = value; }
-        public int[] Arguments { get => _arguments; set => _arguments=value; }
-
-        public int GetResult()
-        {
-            int result = 0;
-            foreach (int item in Arguments)
-            {
-                result += item;
-            }
-            return result;
-        }        
-    }
-
-    public class SubtractionCommand : CalculationCommand
-    {
-        public int[] _arguments;       
-        public OperationType _operationtype;
-
-        public SubtractionCommand()
-        {
-           
-        }
-        public SubtractionCommand(int[] array)
-        {
-           _arguments = array;
-        }
-
-        public SubtractionCommand(int value)
-        {
-            Arguments = new int[] { value };
-        }
-
-        public OperationType OperationType { get => _operationtype; set => OperationType = value; }
-        public int[] Arguments { get => _arguments; set => _arguments = value; }
-
-        public int GetResult()
-        {
-            int result = 0;
-            foreach (int item in Arguments)
-            {
-                result -= item;
-            }
-            return result;
-        }
-    }
-
     public class FluentCalculator
     {
+        private readonly int Result;
+        public FluentCalculator() : this(0) { }
 
-        private CalculationCommand command;
-        static int result= 0;
-        public FluentCalculator ()
+        public FluentCalculator(int result)
         {
-            command = new AdditionCommand();
-            command.Arguments = new int[] { };               
+            Result = result;
+        }
+        public FluentCalculator Calculate(CalculationCommand command)
+        {
+            if (command.Arguments.Length < 1)
+                return new FluentCalculator(this.Result);
 
+            switch (command.OperationType)
+            {
+                case OperationType.Add:
+                    {
+                        return new FluentCalculator(this.Result + command.Arguments.Sum());
+                    }
+                case OperationType.Subtract:
+                    {
+                        return new FluentCalculator(this.Result - command.Arguments.Sum());
+                    }
+                default:
+                    throw new ArgumentException("Unsupported operation type");
+            }
         }
-        public FluentCalculator Calculate(CalculationCommand cmd)
-        {
-            command = cmd;
-            result += command.GetResult();
-            return this;
-                       
-        }
-        
-        public int GetResult()
-        {
-            return command.GetResult();
-        }
-
-       
+        public int GetResult() { return this.Result; }
     }
 
+
+    public enum OperationType
+    {
+        Add, Subtract
+    }
+    public class CalculationCommand
+    {
+        public OperationType OperationType { get; private set; }
+        public int[] Arguments { get; private set; }
+
+        private CalculationCommand()
+        {
+            Arguments = new int[] { };
+        }
+        private CalculationCommand(OperationType type)
+          : this(type, new[] { 0 })
+        { }
+        private CalculationCommand(OperationType type, int argument)
+          : this(type, new[] { argument })
+        { }
+        private CalculationCommand(OperationType type, int[] arguments)
+          : this()
+        {
+            this.OperationType = type;
+            this.Arguments = arguments;
+        }
+
+
+        public static class CalculationCommandFactory
+        {
+            public static CalculationCommand CreateCalculationCommand(OperationType type)
+            {
+                return new CalculationCommand(type);
+            }
+
+            public static CalculationCommand CreateCalculationCommand(OperationType type, int argument)
+            {
+                return new CalculationCommand(type, argument);
+            }
+
+            public static CalculationCommand CreateCalculationCommand(OperationType type, int[] arguments)
+            {
+                return new CalculationCommand(type, arguments);
+            }
+        }
+    }
 }
